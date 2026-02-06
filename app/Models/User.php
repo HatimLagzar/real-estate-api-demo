@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -20,7 +21,7 @@ class User extends Authenticatable
     public const UPDATED_AT_COLUMN = 'updated_at';
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -59,6 +60,16 @@ class User extends Authenticatable
     public function getId(): int
     {
         return $this->getAttribute(self::ID_COLUMN);
+    }
+
+    public function getName(): string
+    {
+        return $this->getAttribute(self::NAME_COLUMN);
+    }
+
+    public function getEmail(): string
+    {
+        return $this->getAttribute(self::EMAIL_COLUMN);
     }
 
     public function properties(): HasMany
