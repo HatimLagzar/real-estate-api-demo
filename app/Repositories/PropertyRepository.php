@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Property;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class PropertyRepository
 {
@@ -26,6 +27,19 @@ class PropertyRepository
         return Property::query()
             ->where(Property::ID_COLUMN, $id)
             ->first();
+    }
+
+    /**
+     * Get all properties for a user (no pagination).
+     *
+     * @return Collection<int, Property>
+     */
+    public function getByUserId(int $userId): Collection
+    {
+        return Property::query()
+            ->where(Property::USER_ID_COLUMN, $userId)
+            ->orderBy(Property::CREATED_AT_COLUMN, 'desc')
+            ->get();
     }
 
     /**

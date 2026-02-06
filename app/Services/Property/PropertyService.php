@@ -68,6 +68,16 @@ class PropertyService
     }
 
     /**
+     * Get all properties for a user (no pagination).
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, Property>
+     */
+    public function getByUserId(int $userId): \Illuminate\Database\Eloquent\Collection
+    {
+        return $this->propertyRepository->getByUserId($userId);
+    }
+
+    /**
      * Paginate properties.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator<Property>

@@ -16,7 +16,7 @@ Route::post('/register', RegisterController::class)->name('register');
 Route::post('/webhooks/properties', CreatePropertyWebhookController::class)
     ->middleware('webhook.token');
 
-Route::get('/properties', IndexPropertiesController::class)->name('properties.index');
+Route::get('/properties', IndexPropertiesController::class)->name('properties.index')->middleware('auth:sanctum');
 Route::get('/properties/{property}', ShowPropertyController::class)->name('properties.show');
 Route::post('/properties', StorePropertyController::class)->name('properties.store');
 Route::match(['put', 'patch'], '/properties/{property}', UpdatePropertyController::class)->name('properties.update');

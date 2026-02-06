@@ -19,13 +19,13 @@ class IndexPropertiesController extends Controller
     }
 
     /**
-     * List properties (paginated).
+     * List properties for the authenticated user (no pagination).
      */
     public function __invoke(Request $request): AnonymousResourceCollection|JsonResponse
     {
         try {
-            $perPage = min(max((int) $request->input('per_page', 15), 1), 100);
-            $properties = $this->propertyService->paginate($perPage);
+            $user = $request->user();
+            $properties = $this->propertyService->getByUserId($user->getId());
 
             return PropertyResource::collection($properties);
         } catch (\Throwable $e) {
