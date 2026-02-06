@@ -56,6 +56,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function getId(): int
+    {
+        return $this->getAttribute(self::ID_COLUMN);
+    }
+
     public function properties(): HasMany
     {
         return $this->hasMany(Property::class);
