@@ -18,7 +18,6 @@ class UpdatePropertyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            Property::USER_ID_COLUMN => ['sometimes', 'integer', 'exists:users,id'],
             Property::PROPERTY_TYPE_COLUMN => ['sometimes', 'string', 'in:residential,commercial,land'],
             Property::FEATURES_COLUMN => ['sometimes', 'nullable', 'array'],
             Property::FEATURES_COLUMN . '.*' => ['string'],

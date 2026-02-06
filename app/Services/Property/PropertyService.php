@@ -88,22 +88,23 @@ class PropertyService
     }
 
     /**
-     * Update a property. Recomputes hash if user_id, property_type, features or price change.
+     * Update a property. user_id is never updated. Recalculates hash if property_type, features or price change.
      *
      * @param  array<string, mixed>  $data
      * @return Property
      */
     public function update(Property $property, array $data): Property
     {
+        unset($data[Property::USER_ID_COLUMN]);
+
         $hashKeys = [
-            Property::USER_ID_COLUMN,
             Property::PROPERTY_TYPE_COLUMN,
             Property::FEATURES_COLUMN,
             Property::PRICE_COLUMN,
         ];
         $affectsHash = count(array_intersect_key($data, array_flip($hashKeys))) > 0;
         if ($affectsHash) {
-            $userId = (int) ($data[Property::USER_ID_COLUMN] ?? $property->getAttribute(Property::USER_ID_COLUMN));
+            $userId = (int) $property->getAttribute(Property::USER_ID_COLUMN);
             $type = (string) ($data[Property::PROPERTY_TYPE_COLUMN] ?? $property->getAttribute(Property::PROPERTY_TYPE_COLUMN));
             $features = $data[Property::FEATURES_COLUMN] ?? $property->getAttribute(Property::FEATURES_COLUMN);
             $price = isset($data[Property::PRICE_COLUMN]) ? (float) $data[Property::PRICE_COLUMN] : ($property->getAttribute(Property::PRICE_COLUMN) !== null ? (float) $property->getAttribute(Property::PRICE_COLUMN) : null);
