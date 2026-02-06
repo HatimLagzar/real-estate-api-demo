@@ -119,13 +119,6 @@ Set `WEBHOOK_PROPERTY_TOKEN` in `.env`. Payload is JSON; required: `user_id`, `p
 
 ---
 
-## Development
-
-- Run tests: `php artisan test`
-- Code style: `./vendor/bin/pint`
-
----
-
 ## Project structure (high level)
 
 - **Auth**: Login/Register controllers, Sanctum for API tokens.
