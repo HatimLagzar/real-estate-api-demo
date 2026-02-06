@@ -9,16 +9,15 @@ use App\Models\Property;
 use App\Models\User;
 use App\Services\Property\CreatePropertyService;
 use App\Services\Property\Exceptions\InvalidPropertyFieldValueException;
-use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class StorePropertyController extends Controller
 {
     public function __construct(
         private CreatePropertyService $createPropertyService,
-        private UserService $userService
     ) {
     }
 
@@ -29,11 +28,9 @@ class StorePropertyController extends Controller
     {
         try {
             $data = $request->validated();
-            $user = $this->userService->findById((int) $data[Property::USER_ID_COLUMN]);
-
-            if (! $user instanceof User) {
-                return response()->json(['message' => 'User not found.'], Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
+            
+            /** @var User $user */
+            $user = $request->user();
 
             $property = $this->createPropertyService->create(
                 $user,
@@ -50,7 +47,7 @@ class StorePropertyController extends Controller
                 ->setStatusCode(Response::HTTP_CREATED);
         } catch (InvalidPropertyFieldValueException $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('failed to create property', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
