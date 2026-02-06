@@ -41,6 +41,11 @@ class Property extends Model
         ];
     }
 
+    public function getId(): int
+    {
+        return $this->getAttribute(self::ID_COLUMN);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

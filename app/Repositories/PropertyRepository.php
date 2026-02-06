@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Property;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PropertyRepository
 {
@@ -15,6 +16,49 @@ class PropertyRepository
     public function create(array $data): Property
     {
         return Property::create($data);
+    }
+
+    /**
+     * Find a property by id.
+     */
+    public function findById(int $id): ?Property
+    {
+        return Property::query()
+            ->where(Property::ID_COLUMN, $id)
+            ->first();
+    }
+
+    /**
+     * Paginate properties.
+     *
+     * @return LengthAwarePaginator<Property>
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator
+    {
+        return Property::query()
+            ->orderBy(Property::CREATED_AT_COLUMN, 'desc')
+            ->paginate($perPage);
+    }
+
+    /**
+     * Update a property.
+     *
+     * @param  array<string, mixed>  $data
+     * @return Property
+     */
+    public function update(Property $property, array $data): Property
+    {
+        $property->update($data);
+
+        return $property->fresh();
+    }
+
+    /**
+     * Delete a property.
+     */
+    public function delete(Property $property): bool
+    {
+        return $property->delete();
     }
 
     /**
