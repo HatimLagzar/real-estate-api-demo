@@ -8,6 +8,11 @@ use App\Services\Property\Exceptions\InvalidPropertyFieldValueException;
 
 class CreatePropertyService
 {
+    public function __construct(
+        private PropertyService $propertyService
+    ) {
+    }
+
     public function create(
         User $user,
         string $propertyType,
@@ -18,11 +23,11 @@ class CreatePropertyService
         ?float $expenditure,
     ): Property
     {
-        if ($price < 0) {
-            throw new InvalidPropertyFieldValueException('Price must be greater than 0');
+        if ($price !== null && $price < 0) {
+            throw new InvalidPropertyFieldValueException('Price must be greater than or equal to 0');
         }
 
-        return Property::create([
+        return $this->propertyService->create([
             Property::USER_ID_COLUMN => $user->getId(),
             Property::PROPERTY_TYPE_COLUMN => $propertyType,
             Property::FEATURES_COLUMN => $features,

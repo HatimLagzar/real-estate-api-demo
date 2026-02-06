@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'webhook' => [
+        'property_token' => env('WEBHOOK_PROPERTY_TOKEN'),
+    ],
+
 ];
