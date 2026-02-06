@@ -15,6 +15,7 @@ class Property extends Model
     public const INCOME_COLUMN = 'income';
     public const EXPENDITURE_COLUMN = 'expenditure';
     public const USER_ID_COLUMN = 'user_id';
+    public const HASH_COLUMN = 'hash';
     public const CREATED_AT_COLUMN = 'created_at';
     public const UPDATED_AT_COLUMN = 'updated_at';
 
@@ -26,6 +27,7 @@ class Property extends Model
         self::INCOME_COLUMN,
         self::EXPENDITURE_COLUMN,
         self::USER_ID_COLUMN,
+        self::HASH_COLUMN,
     ];
 
     protected function casts(): array
