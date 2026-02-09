@@ -4,6 +4,8 @@ namespace App\Services\Property;
 
 use App\Models\Property;
 use App\Repositories\PropertyRepository;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class PropertyService
 {
@@ -24,6 +26,7 @@ class PropertyService
     ): string {
         $featuresNormalized = $features ?? [];
         if (is_array($featuresNormalized)) {
+            $featuresNormalized = array_map(fn (string $f): string => strtolower(trim($f)), $featuresNormalized);
             sort($featuresNormalized);
         }
         $priceNormalized = $price === null ? 'null' : (string) round($price, 2);
